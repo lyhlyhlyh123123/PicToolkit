@@ -10,9 +10,10 @@ Component({
   },
   methods: {
     switchTab(e) {
-      const { path, index } = e.currentTarget.dataset
-      wx.switchTab({ url: path })
+      const path = e.currentTarget.dataset.path
+      const index = Number(e.currentTarget.dataset.index)
       this.setData({ selected: index })
+      wx.switchTab({ url: path })
     },
   },
 })

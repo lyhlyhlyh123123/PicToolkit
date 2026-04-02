@@ -37,8 +37,8 @@
   transform: scale(0.88);
 }
 
-.tab-bar-item--active {
-  transform: scale(1);
+.tab-bar-item--active:active {
+  transform: scale(0.95);
 }
 
 /* active indicator bar at top */

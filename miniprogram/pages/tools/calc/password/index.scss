@@ -148,6 +148,12 @@ page { background: #F5F6FA; height: 100%; }
   align-items: center;
   justify-content: center;
   gap: 10rpx;
+  transition: background 0.15s ease, transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.copy-btn:active {
+  transform: scale(0.96);
+  background: #3A5CE0;
 }
 
 .copy-btn-icon {
@@ -170,6 +176,12 @@ page { background: #F5F6FA; height: 100%; }
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: background 0.15s ease, transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.refresh-btn:active {
+  transform: scale(0.88);
+  background: #E2E4F0;
 }
 
 .refresh-icon {
@@ -200,6 +212,11 @@ page { background: #F5F6FA; height: 100%; }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: background 0.15s ease, transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.char-item:active {
+  transform: scale(0.95);
 }
 
 .char-item--on {
