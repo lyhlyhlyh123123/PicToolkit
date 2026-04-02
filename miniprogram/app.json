@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/text/index",
+    "pages/calc/index",
+    "pages/logs/logs",
+    "pages/tools/image/compress/index",
+    "pages/tools/image/stitch/index",
+    "pages/tools/image/convert/index",
+    "pages/tools/image/watermark/index",
+    "pages/tools/image/crop/index",
+    "pages/tools/image/mosaic/index",
+    "pages/tools/text/cleanup/index",
+    "pages/tools/text/find-replace/index",
+    "pages/tools/text/prefix-suffix/index",
+    "pages/tools/text/dedup/index",
+    "pages/tools/text/diff/index",
+    "pages/tools/text/markdown/index",
+    "pages/tools/text/counter/index",
+    "pages/tools/calc/rmb/index",
+    "pages/tools/calc/color/index",
+    "pages/tools/calc/workday/index",
+    "pages/tools/calc/password/index",
+    "pages/tools/calc/unit/index",
+    "pages/tools/calc/kinship/index"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom",
+    "backgroundColor": "#F5F6FA"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#999999",
+    "selectedColor": "#4A6CF7",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "图片"
+      },
+      {
+        "pagePath": "pages/text/index",
+        "text": "文字"
+      },
+      {
+        "pagePath": "pages/calc/index",
+        "text": "计算"
+      }
+    ]
+  },
+  "style": "v2",
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "defaultContentBox": true,
+      "tagNameStyleIsolation": "legacy",
+      "disableABTest": true,
+      "sdkVersionBegin": "3.0.0",
+      "sdkVersionEnd": "15.255.255"
+    }
+  },
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

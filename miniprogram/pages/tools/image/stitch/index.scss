@@ -1,0 +1,404 @@
+/* pages/tools/image/stitch/index.scss */
+page {
+  background: #F5F6FA;
+  height: 100%;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #F5F6FA;
+}
+
+/* Navbar */
+.navbar {
+  flex-shrink: 0;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  padding: 0 24rpx;
+  padding-top: calc(env(safe-area-inset-top) + 88rpx);
+  padding-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+  gap: 16rpx;
+}
+
+.navbar-back {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  transition: background 0.15s ease;
+}
+
+.navbar-back:active {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.back-arrow {
+  font-size: 52rpx;
+  color: #1A1A2E;
+  line-height: 1;
+  margin-top: -4rpx;
+}
+
+.navbar-title {
+  flex: 1;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.run-btn {
+  padding: 10rpx 28rpx;
+  background: rgba(74,108,247,0.1);
+  border-radius: 20rpx;
+}
+
+.run-btn--disabled { opacity: 0.4; }
+
+.run-btn-text {
+  font-size: 26rpx;
+  color: #4A6CF7;
+  font-weight: 500;
+}
+
+/* Scroll */
+.scroll-area {
+  flex: 1;
+  overflow: hidden;
+}
+
+.content {
+  padding: 24rpx 28rpx calc(env(safe-area-inset-bottom) + 40rpx);
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+/* Section */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1A1A2E;
+}
+
+.section-count {
+  font-size: 24rpx;
+  color: #888899;
+}
+
+/* Image grid */
+.image-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
+
+.image-cell {
+  position: relative;
+  border-radius: 20rpx;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: #E8EAFF;
+}
+
+.grid-img {
+  width: 100%;
+  height: 100%;
+}
+
+.order-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: space-around;
+  padding: 8rpx 0;
+}
+
+.order-btn {
+  padding: 4rpx 20rpx;
+}
+
+.order-icon {
+  font-size: 36rpx;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+.cell-del {
+  position: absolute;
+  top: 8rpx;
+  right: 8rpx;
+  width: 44rpx;
+  height: 44rpx;
+  background: rgba(0,0,0,0.55);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell-del-icon {
+  font-size: 32rpx;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+.image-cell--add {
+  border: 2rpx dashed #C8CFFF;
+  background: #F8F9FF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.add-icon {
+  font-size: 56rpx;
+  color: #4A6CF7;
+  line-height: 1;
+}
+
+.add-text {
+  font-size: 24rpx;
+  color: #888899;
+}
+
+/* Direction */
+.dir-row {
+  display: flex;
+  gap: 16rpx;
+}
+
+.dir-btn {
+  flex: 1;
+  background: #EDEEF5;
+  border-radius: 20rpx;
+  padding: 24rpx 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  border: 2rpx solid transparent;
+}
+
+.dir-btn--active {
+  background: #EEF0FD;
+  border-color: #4A6CF7;
+}
+
+.dir-icon {
+  font-size: 32rpx;
+  color: #4A6CF7;
+}
+
+.dir-text {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.dir-btn--active .dir-text {
+  color: #4A6CF7;
+}
+
+/* Card */
+.card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx 32rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.card-header-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.card-value {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #4A6CF7;
+}
+
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slider-label {
+  font-size: 24rpx;
+  color: #888899;
+}
+
+.slider-val {
+  font-size: 24rpx;
+  color: #4A6CF7;
+}
+
+/* Preview */
+.preview-section {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04);
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 16rpx;
+}
+
+.preview-dot {
+  width: 12rpx;
+  height: 12rpx;
+  background: #4A6CF7;
+  border-radius: 50%;
+}
+
+.preview-title {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.preview-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.preview-action-btn {
+  width: 56rpx;
+  height: 56rpx;
+  background: #F5F6FA;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-action-icon {
+  font-size: 28rpx;
+}
+
+.preview-box {
+  background: #F5F6FA;
+  border-radius: 16rpx;
+  min-height: 200rpx;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-img {
+  width: 100%;
+}
+
+.preview-loading,
+.preview-empty {
+  padding: 60rpx 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-loading-text,
+.preview-empty-text {
+  font-size: 24rpx;
+  color: #AAAABC;
+}
+
+.preview-hint {
+  font-size: 20rpx;
+  color: #AAAABC;
+  margin-top: 12rpx;
+  display: block;
+}
+
+/* Privacy */
+.privacy-label {
+  font-size: 18rpx;
+  color: #AAAABC;
+  text-align: center;
+  letter-spacing: 1rpx;
+  padding: 8rpx 0;
+}
+
+/* Bottom bar */
+.bottom-bar {
+  flex-shrink: 0;
+  padding: 16rpx 28rpx;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 20rpx);
+  background: #FFFFFF;
+  box-shadow: 0 -2rpx 12rpx rgba(0,0,0,0.04);
+}
+
+.gen-btn {
+  width: 100%;
+  background: #4A6CF7;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  box-shadow: 0 8rpx 24rpx rgba(74,108,247,0.35);
+}
+
+.gen-btn--disabled {
+  background: #B0BAF7;
+  box-shadow: none;
+}
+
+.gen-btn-icon {
+  font-size: 32rpx;
+  color: #FFFFFF;
+}
+
+.gen-btn-text {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 2rpx;
+}
+
+/* Hidden canvas */
+.hidden-canvas {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}

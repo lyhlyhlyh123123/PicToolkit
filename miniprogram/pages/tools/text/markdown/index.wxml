@@ -1,0 +1,55 @@
+<!--pages/tools/text/markdown/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">功能详情</text>
+    <view class="navbar-actions">
+      <view class="nav-btn" bindtap="onClear">
+        <text class="nav-btn-text">清空</text>
+      </view>
+      <view class="nav-btn nav-btn--primary" bindtap="onCopy">
+        <text class="nav-btn-text nav-btn-text--primary">复制</text>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 编辑器 -->
+      <view class="editor-card">
+        <view class="editor-topbar">
+          <view class="editor-topbar-left">
+            <text class="editor-topbar-icon">⇄</text>
+            <text class="editor-topbar-label">MARKDOWN 编辑器</text>
+          </view>
+          <text class="editor-topbar-stat">{{encoding}} | {{byteSize}}</text>
+        </view>
+        <textarea
+          class="editor-textarea"
+          value="{{mdText}}"
+          placeholder="在此输入 Markdown 内容..."
+          placeholder-class="editor-placeholder"
+          bindinput="onInput"
+          auto-height
+          maxlength="-1"
+        />
+      </view>
+
+      <!-- 预览区 -->
+      <view class="preview-card">
+        <view class="preview-header">
+          <text class="preview-header-dot">▶</text>
+          <text class="preview-header-label">实时预览</text>
+        </view>
+        <view class="preview-body">
+          <rich-text nodes="{{previewNodes}}"></rich-text>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

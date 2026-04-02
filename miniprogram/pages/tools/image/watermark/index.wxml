@@ -1,0 +1,176 @@
+<!--pages/tools/image/watermark/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">证件快捷加水印</text>
+    <view class="navbar-right">
+      <view class="privacy-tag">
+        <text class="privacy-tag-icon">🛡</text>
+        <text class="privacy-tag-text">本地处理，保护隐私</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 预览区：固定在 navbar 下方，不参与滚动 -->
+  <view class="preview-panel">
+    <block wx:if="{{!previewUrl}}">
+      <view class="upload-placeholder" id="canvasContainer" bindtap="onChooseImage">
+        <view class="wm-bg-texts">
+          <text class="wm-bg-text">仅供办理业务使用</text>
+          <text class="wm-bg-text">仅供办理业务使用</text>
+          <text class="wm-bg-text">仅供办理业务使用</text>
+        </view>
+        <view class="upload-center">
+          <view class="upload-icon-wrap">
+            <text class="upload-icon">🖼</text>
+          </view>
+          <text class="upload-title">点击上传证件</text>
+          <text class="upload-hint">支持 JPG、PNG，最大 20MB</text>
+          <view class="upload-btn">选择文件</view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="canvas-frame" id="canvasContainer">
+        <canvas
+          type="2d"
+          id="watermarkCanvas"
+          class="preview-canvas"
+          style="width:{{canvasW}}px;height:{{canvasH}}px;max-width:100%;max-height:100%"
+        ></canvas>
+      </view>
+      <view class="action-bar">
+        <view class="action-btn" bindtap="onZoomPreview">
+          <text class="action-btn-icon">🔍</text>
+          <text class="action-btn-text">放大预览</text>
+        </view>
+        <view class="action-sep"></view>
+        <view class="action-btn" bindtap="onReChoose">
+          <text class="action-btn-icon">↺</text>
+          <text class="action-btn-text">重新选图</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 参数设置区：独立滚动 -->
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 水印内容 -->
+      <view class="card">
+        <view class="card-header">
+          <text class="card-header-icon">Tt</text>
+          <text class="card-header-title">水印内容</text>
+        </view>
+        <input
+          class="wm-input"
+          value="{{watermarkText}}"
+          placeholder="请输入水印文字"
+          bindinput="onTextInput"
+          maxlength="30"
+        />
+        <view class="preset-tags">
+          <view
+            wx:for="{{presets}}"
+            wx:key="index"
+            class="preset-tag {{watermarkText === item ? 'preset-tag--active' : ''}}"
+            data-text="{{item}}"
+            bindtap="onPresetTap"
+          >{{item}}</view>
+        </view>
+      </view>
+
+      <!-- 透明度 -->
+      <view class="card">
+        <view class="card-row">
+          <view class="card-header">
+            <text class="card-header-icon">◎</text>
+            <text class="card-header-title">透明度</text>
+          </view>
+          <text class="card-value">{{opacity}}%</text>
+        </view>
+        <slider
+          min="10" max="90"
+          value="{{opacity}}"
+          activeColor="#4A6CF7"
+          backgroundColor="#E8EAFF"
+          block-color="#4A6CF7"
+          block-size="20"
+          bindchanging="onOpacityChanging"
+          bindchange="onOpacityChange"
+        />
+      </view>
+
+      <!-- 水印大小 -->
+      <view class="card">
+        <view class="card-row">
+          <view class="card-header">
+            <text class="card-header-icon">↔</text>
+            <text class="card-header-title">水印大小</text>
+          </view>
+          <text class="card-value">{{fontSize}}px</text>
+        </view>
+        <slider
+          min="8" max="32"
+          value="{{fontSize}}"
+          activeColor="#4A6CF7"
+          backgroundColor="#E8EAFF"
+          block-color="#4A6CF7"
+          block-size="20"
+          bindchanging="onFontSizeChanging"
+          bindchange="onFontSizeChange"
+        />
+      </view>
+
+      <!-- 间距密度 -->
+      <view class="card">
+        <view class="card-row">
+          <view class="card-header">
+            <text class="card-header-icon">⊞</text>
+            <text class="card-header-title">间距密度</text>
+          </view>
+          <text class="card-value">{{densityLabel}}</text>
+        </view>
+        <view class="seg-control">
+          <view
+            wx:for="{{densityOptions}}"
+            wx:key="value"
+            class="seg-item {{density === item.value ? 'seg-item--active' : ''}}"
+            data-value="{{item.value}}"
+            bindtap="onDensityTap"
+          >{{item.label}}</view>
+        </view>
+      </view>
+
+      <!-- 文字颜色 -->
+      <view class="card">
+        <view class="card-header">
+          <text class="card-header-icon">A</text>
+          <text class="card-header-title">文字颜色</text>
+        </view>
+        <view class="color-list">
+          <view
+            wx:for="{{colorOptions}}"
+            wx:key="value"
+            class="color-dot {{color === item.value ? 'color-dot--active' : ''}}"
+            style="background:{{item.value}};{{item.value === '#FFFFFF' ? 'border:2rpx solid #ddd;' : ''}}"
+            data-value="{{item.value}}"
+            bindtap="onColorTap"
+          ></view>
+        </view>
+      </view>
+
+      <!-- 保存按钮 -->
+      <view class="save-btn {{!previewUrl ? 'save-btn--disabled' : ''}}" bindtap="onSave">
+        <text class="save-btn-icon">⬇</text>
+        <text class="save-btn-text">保存高清图</text>
+      </view>
+      <text class="save-hint">你的图片在本地进行加水印处理，不会上传到服务器，保障您的信息安全。</text>
+
+    </view>
+  </scroll-view>
+</view>

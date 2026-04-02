@@ -1,0 +1,52 @@
+<!--pages/index/index.wxml-->
+<view class="page-wrap">
+  <!-- Header -->
+  <view class="header">
+    <view class="header-logo">
+      <view class="logo-icon">
+        <text class="logo-scissors">✂</text>
+      </view>
+      <text class="header-title">极简图文工具箱</text>
+    </view>
+  </view>
+
+  <!-- Content -->
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+      <!-- Page Title -->
+      <view class="page-title-area">
+        <text class="page-title">图片工具</text>
+        <view class="privacy-badge">
+          <text class="privacy-dot">●</text>
+          <text class="privacy-text">本地处理，隐私保护</text>
+        </view>
+      </view>
+
+      <!-- Tool Grid -->
+      <view class="tool-grid">
+        <view
+          wx:for="{{tools}}"
+          wx:key="id"
+          class="tool-card"
+          data-id="{{item.id}}"
+          bindtap="onToolTap"
+        >
+          <view class="tool-icon-wrap" style="background:{{item.iconBg}}">
+            <image class="tool-icon-img" src="{{item.icon}}" mode="aspectFit"></image>
+          </view>
+          <view class="tool-info">
+            <text class="tool-name">{{item.name}}</text>
+            <text class="tool-desc">{{item.desc}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- Privacy Footer -->
+      <view class="privacy-footer">
+        <text class="privacy-footer-icon">🛡</text>
+        <text class="privacy-footer-label">PRIVACY FIRST SYSTEM</text>
+        <text class="privacy-footer-desc">所有处理均在浏览器内完成，数据永不上传服务器。</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>

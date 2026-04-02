@@ -1,0 +1,93 @@
+<!--pages/tools/calc/rmb/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">计算工具</text>
+    <text class="navbar-brand">Precision.</text>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 页面标题 -->
+      <view class="page-header">
+        <view class="tag">FINANCIAL TOOL</view>
+        <text class="page-title">人民币大写转换</text>
+        <text class="page-subtitle">遵循中国财务规范，本地精准转换。</text>
+      </view>
+
+      <!-- 模式切换 -->
+      <view class="mode-tabs">
+        <view class="mode-tab {{mode === 'toRMB' ? 'mode-tab--active' : ''}}" bindtap="onSwitchMode" data-target="toRMB">
+          <text class="mode-tab-text">数字 → 大写</text>
+        </view>
+        <view class="mode-switch-btn" bindtap="onSwitchMode">
+          <text class="mode-switch-icon">⇄</text>
+        </view>
+        <view class="mode-tab {{mode === 'toNum' ? 'mode-tab--active' : ''}}" bindtap="onSwitchMode" data-target="toNum">
+          <text class="mode-tab-text">大写 → 数字</text>
+        </view>
+      </view>
+
+      <!-- 输入卡片 -->
+      <view class="card input-card">
+        <view class="input-card-header">
+          <text class="card-label">{{mode === 'toRMB' ? '阿拉伯数字' : '人民币大写'}}</text>
+          <view class="clear-btn" bindtap="onClear" wx:if="{{inputValue}}">
+            <text class="clear-btn-text">清空</text>
+          </view>
+        </view>
+        <view class="input-row" wx:if="{{mode === 'toRMB'}}">
+          <input
+            class="amount-input"
+            type="digit"
+            value="{{inputValue}}"
+            placeholder="0.00"
+            placeholder-class="input-placeholder"
+            bindinput="onInput"
+            maxlength="16"
+          />
+          <text class="currency-badge">CNY</text>
+        </view>
+        <textarea
+          wx:if="{{mode === 'toNum'}}"
+          class="rmb-textarea"
+          value="{{inputValue}}"
+          placeholder="输入人民币大写，如：壹万贰仟叁佰元整"
+          placeholder-class="input-placeholder-sm"
+          bindinput="onInput"
+          auto-height
+          maxlength="100"
+        />
+      </view>
+
+      <!-- 结果卡片 -->
+      <view class="card result-card">
+        <view class="result-header">
+          <text class="card-label">{{mode === 'toRMB' ? '票据大写金额' : '阿拉伯数字'}}</text>
+          <view class="standard-badge">
+            <text class="standard-icon">⊙</text>
+            <text class="standard-text">STANDARD</text>
+          </view>
+        </view>
+        <text class="result-text {{!hasResult ? 'result-text--empty' : ''}}">
+          {{hasResult ? result : (mode === 'toRMB' ? '壹万贰仟叁佰肆拾伍元陆角柒分' : '12345.67')}}
+        </text>
+        <view class="copy-btn" bindtap="onCopy" wx:if="{{hasResult}}">
+          <text class="copy-btn-icon">⎘</text>
+          <text class="copy-btn-text">一键复制</text>
+        </view>
+      </view>
+
+      <!-- 隐私说明 -->
+      <view class="privacy-row">
+        <text class="privacy-icon">ⓘ</text>
+        <text class="privacy-text">遵循《票据填写规定》，数据本地转换，确保隐私安全。</text>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

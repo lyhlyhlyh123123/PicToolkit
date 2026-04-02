@@ -1,0 +1,123 @@
+<!--pages/tools/calc/kinship/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">计算工具</text>
+    <text class="navbar-brand">称呼助手</text>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 页面标题 -->
+      <view class="page-header">
+        <text class="page-title">中国亲戚称呼</text>
+        <text class="page-subtitle">精准解析复杂的家族血缘脉络。</text>
+      </view>
+
+      <!-- 结果展示 -->
+      <view class="result-card">
+        <text class="chain-label">当前关系链</text>
+        <text class="chain-desc {{!chainDesc ? 'chain-desc--empty' : ''}}">
+          {{chainDesc || '我的…'}}
+        </text>
+        <text class="result-text {{!result ? 'result-text--empty' : ''}}">
+          {{result || (chain.length ? '暂未收录' : '—')}}
+        </text>
+      </view>
+
+      <!-- 配置标签 -->
+      <view class="config-row">
+        <view class="config-tag" bindtap="onToggleGender">
+          <text class="config-tag-text">我是：{{gender === 'male' ? '男性' : '女性'}}</text>
+        </view>
+        <view class="config-tag" bindtap="onToggleStyle">
+          <text class="config-tag-text">称呼方式：{{style === 'formal' ? '正式' : '口语'}}</text>
+        </view>
+      </view>
+
+      <!-- 计算器键盘 -->
+      <view class="keypad-card">
+        <!-- 功能键行 -->
+        <view class="keypad-row">
+          <view class="key key--func" bindtap="onAC">
+            <text class="key-text key-text--func">AC</text>
+          </view>
+          <view class="key key--del" bindtap="onDel">
+            <text class="key-text key-text--del">⌫</text>
+          </view>
+          <view class="key key--of" bindtap="onRelTap" data-rel="的">
+            <text class="key-text">的</text>
+          </view>
+          <view class="key key--eq" bindtap="onEqual">
+            <text class="key-text key-text--eq">=</text>
+          </view>
+        </view>
+
+        <!-- 关系键 -->
+        <view class="keypad-row">
+          <view class="key" bindtap="onRelTap" data-rel="father">
+            <text class="key-text key-zh">父</text>
+            <text class="key-en">FATHER</text>
+          </view>
+          <view class="key" bindtap="onRelTap" data-rel="mother">
+            <text class="key-text key-zh">母</text>
+            <text class="key-en">MOTHER</text>
+          </view>
+          <view class="key" bindtap="onRelTap" data-rel="husband">
+            <text class="key-text key-zh">夫</text>
+            <text class="key-en">HUSBAND</text>
+          </view>
+          <view class="key" bindtap="onRelTap" data-rel="wife">
+            <text class="key-text key-zh">妻</text>
+            <text class="key-en">WIFE</text>
+          </view>
+        </view>
+
+        <view class="keypad-row">
+          <view class="key" bindtap="onRelTap" data-rel="elder_brother">
+            <text class="key-text key-zh">兄</text>
+            <text class="key-en">BROTHER</text>
+          </view>
+          <view class="key" bindtap="onRelTap" data-rel="younger_brother">
+            <text class="key-text key-zh">弟</text>
+            <text class="key-en">YOUNGER</text>
+          </view>
+          <view class="key" bindtap="onRelTap" data-rel="elder_sister">
+            <text class="key-text key-zh">姐</text>
+            <text class="key-en">SISTER</text>
+          </view>
+          <view class="key" bindtap="onRelTap" data-rel="younger_sister">
+            <text class="key-text key-zh">妹</text>
+            <text class="key-en">YOUNGER</text>
+          </view>
+        </view>
+
+        <view class="keypad-row">
+          <view class="key" bindtap="onRelTap" data-rel="son">
+            <text class="key-text key-zh">子</text>
+            <text class="key-en">SON</text>
+          </view>
+          <view class="key" bindtap="onRelTap" data-rel="daughter">
+            <text class="key-text key-zh">女</text>
+            <text class="key-en">DAUGHTER</text>
+          </view>
+          <view class="key key--history" bindtap="onShowHistory">
+            <text class="key-history-icon">↺</text>
+            <text class="key-history-text">历史记录</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 隐私说明 -->
+      <view class="privacy-row">
+        <text class="privacy-icon">⊙</text>
+        <text class="privacy-text">LOCAL · PRIVACY FIRST</text>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,139 @@
+<!--pages/tools/image/crop/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">功能详情</text>
+    <view class="run-btn {{!srcPath ? 'run-btn--disabled' : ''}}" bindtap="onCrop">
+      <text class="run-btn-text">运行</text>
+    </view>
+  </view>
+
+  <!-- 预览区（固定，不参与滚动） -->
+  <view class="preview-panel">
+    <block wx:if="{{!srcPath}}">
+      <!-- 未上传：占位容器仍保留 id 供尺寸测量 -->
+      <view class="crop-canvas-wrap" id="cropWrap" bindtap="onChooseImage">
+        <view class="upload-placeholder">
+          <view class="upload-icon-wrap">
+            <text class="upload-icon">🖼</text>
+          </view>
+          <text class="upload-title">点击选择图片</text>
+          <text class="upload-hint">支持 JPG、PNG，最大 20MB</text>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <!-- 裁剪预览 canvas -->
+      <view class="crop-canvas-wrap" id="cropWrap">
+        <canvas
+          type="2d"
+          id="cropCanvas"
+          class="crop-canvas"
+          style="width:{{canvasW}}px;height:{{canvasH}}px"
+          bindtouchstart="onTouchStart"
+          bindtouchmove="onTouchMove"
+          bindtouchend="onTouchEnd"
+        ></canvas>
+      </view>
+      <view class="preview-bar">
+        <text class="preview-mode-label">PREVIEW MODE: PRECISE CROP</text>
+        <view class="preview-actions">
+          <view class="preview-action" bindtap="onZoom">
+            <text class="preview-action-icon">🔍</text>
+            <text class="preview-action-text">放大</text>
+          </view>
+          <view class="preview-action" bindtap="onReset">
+            <text class="preview-action-icon">↺</text>
+            <text class="preview-action-text">重置</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 参数区（可滚动） -->
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 预设比例 -->
+      <view class="section-title">预设比例</view>
+      <view class="ratio-grid">
+        <view
+          wx:for="{{ratioOptions}}"
+          wx:key="id"
+          class="ratio-card {{activeRatio === item.id ? 'ratio-card--active' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="onRatioTap"
+        >
+          <view class="ratio-icon-wrap">
+            <view
+              class="ratio-rect"
+              style="width:{{item.iconW}}rpx;height:{{item.iconH}}rpx;border-color:{{activeRatio === item.id ? '#4A6CF7' : '#8899BB'}}"
+            ></view>
+          </view>
+          <text class="ratio-name">{{item.name}}</text>
+          <text class="ratio-desc">{{item.desc}}</text>
+        </view>
+      </view>
+
+      <!-- 像素精准输入 -->
+      <view class="section-title">像素精准输入</view>
+      <view class="card">
+        <view class="px-input-row">
+          <view class="px-input-group">
+            <text class="px-input-label">宽度 (px)</text>
+            <view class="px-input-wrap">
+              <input
+                class="px-input"
+                type="number"
+                value="{{cropW}}"
+                bindinput="onCropWInput"
+                placeholder="宽"
+              />
+              <text class="px-input-unit">↔</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="lock-row" bindtap="onToggleLock">
+          <view class="lock-btn {{lockRatio ? 'lock-btn--active' : ''}}">
+            <text class="lock-icon">{{lockRatio ? '🔒' : '🔓'}}</text>
+          </view>
+        </view>
+
+        <view class="px-input-row">
+          <view class="px-input-group">
+            <text class="px-input-label">高度 (px)</text>
+            <view class="px-input-wrap">
+              <input
+                class="px-input"
+                type="number"
+                value="{{cropH}}"
+                bindinput="onCropHInput"
+                placeholder="高"
+              />
+              <text class="px-input-unit">↕</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="px-hint">
+          <text class="px-hint-icon">ℹ</text>
+          <text class="px-hint-text">锁定比例后，修改任意数值将自动计算对应维度。支持最高 8K 分辨率输入。</text>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <view class="crop-btn {{!srcPath ? 'crop-btn--disabled' : ''}}" bindtap="onCrop">
+      <text class="crop-btn-icon">✓</text>
+      <text class="crop-btn-text">完成裁剪</text>
+    </view>
+  </view>
+</view>

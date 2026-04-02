@@ -1,0 +1,132 @@
+<!--pages/tools/calc/workday/index.wxml-->
+<view class="page">
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">计算工具</text>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <view class="page-header">
+        <text class="page-title">日期推算</text>
+        <text class="page-subtitle">精准计算每一天的工作与生活节点</text>
+      </view>
+
+      <!-- 模式切换 -->
+      <view class="mode-tabs">
+        <view class="mode-tab {{mode === 'forward' ? 'mode-tab--active' : ''}}" bindtap="onModeForward">
+          <text class="mode-tab-text">推算日期</text>
+        </view>
+        <view class="mode-tab {{mode === 'interval' ? 'mode-tab--active' : ''}}" bindtap="onModeInterval">
+          <text class="mode-tab-text">计算间隔</text>
+        </view>
+      </view>
+
+      <!-- 输入区 -->
+      <view class="card">
+
+        <!-- 起始日期 -->
+        <view class="field">
+          <text class="field-label">起始日期</text>
+          <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+            <view class="date-picker">
+              <text class="date-picker-icon">📅</text>
+              <text class="date-picker-text">{{startDate || '选择日期'}}</text>
+            </view>
+          </picker>
+        </view>
+
+        <!-- 推算天数（forward 模式）-->
+        <view class="field" wx:if="{{mode === 'forward'}}">
+          <text class="field-label">推算天数</text>
+          <view class="days-input-row">
+            <input
+              class="days-input"
+              type="number"
+              value="{{days}}"
+              placeholder="30"
+              placeholder-class="days-placeholder"
+              bindinput="onDaysInput"
+            />
+            <text class="days-unit">天</text>
+          </view>
+        </view>
+
+        <!-- 结束日期（interval 模式）-->
+        <view class="field" wx:if="{{mode === 'interval'}}">
+          <text class="field-label">结束日期</text>
+          <picker mode="date" value="{{endDate}}" bindchange="onEndDateChange">
+            <view class="date-picker">
+              <text class="date-picker-icon">📅</text>
+              <text class="date-picker-text">{{endDate || '选择日期'}}</text>
+            </view>
+          </picker>
+        </view>
+
+        <!-- 过滤条件 -->
+        <view class="field field--toggle" bindtap="onToggleWorkday">
+          <text class="field-label">过滤条件</text>
+          <view class="toggle-row">
+            <view class="toggle-option {{workdayOnly ? 'toggle-option--active' : ''}}">
+              <text class="toggle-icon">📅</text>
+              <text class="toggle-text">{{workdayOnly ? '仅工作日' : '排除周末'}}</text>
+            </view>
+            <view class="toggle-switch {{workdayOnly ? 'toggle-switch--on' : ''}}">
+              <view class="toggle-thumb"></view>
+            </view>
+          </view>
+        </view>
+
+      </view>
+
+      <!-- 结果 -->
+      <view class="result-card" wx:if="{{hasResult}}">
+        <view class="result-meta">
+          <text class="result-meta-label">推算结果</text>
+          <view class="result-meta-badge" wx:if="{{workdayOnly}}">
+            <text class="result-meta-badge-icon">✓</text>
+            <text class="result-meta-badge-text">已模对法定假日</text>
+          </view>
+        </view>
+        <view wx:if="{{mode === 'forward'}}">
+          <text class="result-date">{{resultDate}}</text>
+          <text class="result-weekday">{{resultWeekday}}</text>
+        </view>
+        <view wx:if="{{mode === 'interval'}}">
+          <text class="result-date">{{resultDays}} 天</text>
+          <text class="result-weekday">{{workdayOnly ? '个工作日' : '自然日'}}</text>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="calc-btn" bindtap="onCalc">
+        <text class="calc-btn-text">开始推算</text>
+      </view>
+
+      <!-- 底部工具卡片 -->
+      <view class="tool-row">
+        <view class="tool-card">
+          <text class="tool-card-icon">🗂</text>
+          <text class="tool-card-title">工作日计算</text>
+          <text class="tool-card-desc">自动识别并跳过公假日与调休日期。</text>
+        </view>
+        <view class="tool-card" bindtap="onShowHistory">
+          <text class="tool-card-icon">↺</text>
+          <text class="tool-card-title">历史记录</text>
+          <text class="tool-card-desc">最近五次计算已自动保存本地。</text>
+        </view>
+      </view>
+
+      <!-- 底部声明 -->
+      <view class="footer">
+        <text class="footer-icon">⊙</text>
+        <text class="footer-text">LOCAL-FIRST CALCULATION</text>
+        <text class="footer-sub">所有计算均在本地完成，我们不保留任何数据。</text>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,133 @@
+<!--pages/tools/image/mosaic/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">手动隐私打码</text>
+  </view>
+
+  <!-- 画布区（固定，不滚动） -->
+  <view class="canvas-panel" id="mosaicWrap" bindtap="{{!srcPath ? 'onChooseImage' : ''}}">
+    <block wx:if="{{!srcPath}}">
+      <view class="upload-placeholder">
+        <view class="upload-icon-wrap">
+          <text class="upload-icon">🖼</text>
+        </view>
+        <text class="upload-title">点击选择图片</text>
+        <text class="upload-hint">支持 JPG、PNG，最大 20MB</text>
+      </view>
+    </block>
+    <block wx:else>
+      <canvas
+        type="2d"
+        id="mosaicCanvas"
+        class="mosaic-canvas"
+        style="width:{{canvasW}}px;height:{{canvasH}}px"
+        bindtouchstart="onTouchStart"
+        bindtouchmove="onTouchMove"
+        bindtouchend="onTouchEnd"
+      ></canvas>
+    </block>
+
+    <!-- 底部工具栏（有图片时显示） -->
+    <view class="toolbar" wx:if="{{srcPath}}">
+      <view class="toolbar-btn" bindtap="onUndo">
+        <text class="toolbar-icon">↩</text>
+      </view>
+      <view class="toolbar-divider"></view>
+      <view class="toolbar-btn" bindtap="onRedo">
+        <text class="toolbar-icon">↪</text>
+      </view>
+      <view class="toolbar-divider"></view>
+      <view class="toolbar-btn toolbar-btn--danger" bindtap="onClearAll">
+        <text class="toolbar-danger-icon">⊗</text>
+        <text class="toolbar-danger-text">全部\n清除</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 参数区（可滚动） -->
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 打码模式 -->
+      <view class="section-title">打码模式</view>
+      <view class="mode-grid">
+        <view
+          wx:for="{{modes}}"
+          wx:key="id"
+          class="mode-card {{mode === item.id ? 'mode-card--active' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="onModeChange"
+        >
+          <text class="mode-icon">{{item.icon}}</text>
+          <text class="mode-name">{{item.name}}</text>
+        </view>
+      </view>
+
+      <!-- 画笔大小 -->
+      <view class="param-header">
+        <text class="param-label">画笔大小</text>
+        <text class="param-value">{{brushSize}}px</text>
+      </view>
+      <slider
+        min="4" max="80"
+        value="{{brushSize}}"
+        activeColor="#4A6CF7"
+        backgroundColor="#E8EAFF"
+        block-color="#4A6CF7"
+        block-size="20"
+        bindchange="onBrushSizeTap2"
+      />
+      <view class="brush-presets">
+        <view
+          wx:for="{{brushSizes}}"
+          wx:key="*this"
+          class="brush-dot {{brushSize === item ? 'brush-dot--active' : ''}}"
+          style="width:{{item * 0.6 + 12}}rpx;height:{{item * 0.6 + 12}}rpx"
+          data-size="{{item}}"
+          bindtap="onBrushSizeTap"
+        ></view>
+      </view>
+
+      <!-- 遮盖强度 -->
+      <view class="param-header" style="margin-top:16rpx">
+        <text class="param-label">遮盖强度</text>
+        <text class="param-value">{{intensity}}%</text>
+      </view>
+      <slider
+        min="10" max="100"
+        value="{{intensity}}"
+        activeColor="#4A6CF7"
+        backgroundColor="#E8EAFF"
+        block-color="#4A6CF7"
+        block-size="20"
+        bindchanging="onIntensityChanging"
+        bindchange="onIntensityChange"
+      />
+
+      <!-- 提示 -->
+      <view class="tip-card">
+        <view class="tip-header">
+          <text class="tip-icon">ℹ</text>
+          <text class="tip-title">提示</text>
+        </view>
+        <text class="tip-desc">隐私保护由本地算法处理，您的图片不会上传至服务器，请放心使用。</text>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 隐藏导出 canvas -->
+  <canvas type="2d" id="mosaicExportCanvas" class="hidden-canvas"></canvas>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <view class="export-btn {{!srcPath || exporting ? 'export-btn--disabled' : ''}}" bindtap="onSave">
+      <text class="export-btn-icon">✓</text>
+      <text class="export-btn-text">{{exporting ? '导出中...' : '完成导出'}}</text>
+    </view>
+  </view>
+</view>

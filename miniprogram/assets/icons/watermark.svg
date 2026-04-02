@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#4A6CF7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="3" width="18" height="18" rx="2"/>
+  <path d="M3 9h18"/>
+  <path d="M9 21V9"/>
+  <text x="12" y="17" text-anchor="middle" fill="#4A6CF7" stroke="none" font-size="5" font-weight="bold">水</text>
+</svg>

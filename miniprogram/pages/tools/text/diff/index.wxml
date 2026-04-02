@@ -1,0 +1,108 @@
+<!--pages/tools/text/diff/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">功能详情</text>
+    <view class="run-btn" bindtap="onDiff">
+      <text class="run-btn-text">运行</text>
+    </view>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 功能标题说明 -->
+      <view class="intro">
+        <text class="intro-title">文本差异对比</text>
+        <text class="intro-desc">上传或粘贴两段文本，精确捕捉字符级的细微差异。</text>
+      </view>
+
+      <!-- 文本 A -->
+      <view class="input-card">
+        <view class="input-card-header">
+          <view class="input-label-wrap">
+            <view class="label-dot label-dot--a"></view>
+            <text class="input-label">文本 A（原始）</text>
+          </view>
+          <text class="clear-btn" bindtap="onClearA">清空</text>
+        </view>
+        <textarea
+          class="text-area"
+          value="{{textA}}"
+          placeholder="在此输入或粘贴原始文本..."
+          placeholder-class="text-area-placeholder"
+          bindinput="onInputA"
+          auto-height
+          maxlength="-1"
+        />
+      </view>
+
+      <!-- 文本 B -->
+      <view class="input-card">
+        <view class="input-card-header">
+          <view class="input-label-wrap">
+            <view class="label-dot label-dot--b"></view>
+            <text class="input-label">文本 B（修改后）</text>
+          </view>
+          <text class="paste-btn" bindtap="onPasteB">粘贴</text>
+        </view>
+        <textarea
+          class="text-area"
+          value="{{textB}}"
+          placeholder="在此输入或粘贴修改后文本..."
+          placeholder-class="text-area-placeholder"
+          bindinput="onInputB"
+          auto-height
+          maxlength="-1"
+        />
+      </view>
+
+      <!-- 差异预览 -->
+      <view class="diff-section" wx:if="{{diffLines.length > 0}}">
+        <text class="diff-title">差异预览</text>
+        <view class="diff-box">
+          <view
+            wx:for="{{diffLines}}"
+            wx:key="index"
+            class="diff-line"
+          >
+            <block wx:for="{{item.segments}}" wx:key="index" wx:for-item="seg">
+              <text
+                class="diff-seg {{seg.type === 'del' ? 'diff-del' : ''}} {{seg.type === 'add' ? 'diff-add' : ''}}"
+              >{{seg.text}}</text>
+            </block>
+          </view>
+        </view>
+        <!-- 统计 -->
+        <view class="diff-stats">
+          <view class="stat-item stat-del">
+            <view class="stat-dot stat-dot--del"></view>
+            <text class="stat-text">已删除</text>
+          </view>
+          <view class="stat-item stat-add">
+            <view class="stat-dot stat-dot--add"></view>
+            <text class="stat-text">已添加</text>
+          </view>
+          <text class="stat-count">发现 {{diffCount}} 处显著差异</text>
+        </view>
+      </view>
+
+      <!-- 开始对比按钮 -->
+      <view class="diff-btn" bindtap="onDiff">
+        <text class="diff-btn-icon">⇄</text>
+        <text class="diff-btn-text">开始对比</text>
+      </view>
+
+      <!-- 底部说明 -->
+      <view class="footer-tips">
+        <text class="footer-tip">⊙ 本地处理</text>
+        <text class="footer-tip">⊙ 不上传服务器</text>
+        <text class="footer-tip">⊙ 自动保存草稿</text>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

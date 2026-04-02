@@ -1,0 +1,104 @@
+<!--pages/tools/calc/color/index.wxml-->
+<view class="page">
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">计算工具</text>
+    <text class="navbar-brand">Precision.</text>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 颜色预览 -->
+      <view class="preview-card" style="background-color: {{previewColor}};">
+        <text class="preview-label">ACTIVE PREVIEW</text>
+        <text class="preview-hex">{{hexVal}}</text>
+      </view>
+
+      <!-- 输入区 -->
+      <view class="card input-card">
+        <view class="input-header">
+          <text class="input-label">{{mode === 'hex' ? 'HEX / RGB INPUT' : 'RGB INPUT'}}</text>
+          <view class="mode-toggle" bindtap="onToggleMode">
+            <text class="mode-toggle-text">{{mode === 'hex' ? 'HEX MODE' : 'RGB MODE'}}</text>
+          </view>
+        </view>
+        <input
+          class="color-input {{!valid ? 'color-input--invalid' : ''}}"
+          value="{{inputValue}}"
+          placeholder="{{mode === 'hex' ? '#RRGGBB' : 'R, G, B'}}"
+          placeholder-class="color-placeholder"
+          bindinput="onInput"
+          maxlength="30"
+        />
+      </view>
+
+      <!-- 数据输出网格 -->
+      <view class="card data-card" wx:if="{{valid}}">
+        <view class="data-grid">
+          <view class="data-item">
+            <view class="data-item-header">
+              <text class="data-label">RGB</text>
+              <view class="copy-icon-btn" bindtap="onCopyRgb">
+                <text class="copy-icon">⎘</text>
+              </view>
+            </view>
+            <text class="data-value">{{rgb}}</text>
+          </view>
+
+          <view class="data-item">
+            <view class="data-item-header">
+              <text class="data-label">HSL</text>
+              <view class="copy-icon-btn" bindtap="onCopyHsl">
+                <text class="copy-icon">⎘</text>
+              </view>
+            </view>
+            <text class="data-value">{{hsl}}</text>
+          </view>
+
+          <view class="data-item">
+            <view class="data-item-header">
+              <text class="data-label">DECIMAL</text>
+            </view>
+            <text class="data-value">{{decimal}}</text>
+          </view>
+
+          <view class="data-item">
+            <view class="data-item-header">
+              <text class="data-label">BINARY</text>
+              <view class="copy-icon-btn" bindtap="onCopyBinary">
+                <text class="copy-icon">⎘</text>
+              </view>
+            </view>
+            <text class="data-value data-value--binary">{{binary}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 和声变体 -->
+      <view class="card variants-card" wx:if="{{valid && variants.length}}">
+        <text class="variants-label">HARMONIOUS VARIANTS</text>
+        <view class="variants-row">
+          <view
+            class="variant-swatch"
+            wx:for="{{variants}}"
+            wx:key="index"
+            style="background-color: {{item}};"
+            data-hex="{{item}}"
+            bindtap="onVariantTap"
+          >
+            <text class="variant-hex">{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部 -->
+      <view class="footer-row">
+        <text class="footer-text">Local-first calculation • Precision Mapping</text>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

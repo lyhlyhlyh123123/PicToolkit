@@ -1,0 +1,134 @@
+<!--pages/tools/text/cleanup/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">功能详情</text>
+    <view class="run-btn {{!sourceText ? 'run-btn--disabled' : ''}}" bindtap="onRun">
+      <text class="run-btn-text">运行</text>
+    </view>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 页面标题 -->
+      <view class="page-header">
+        <text class="page-title">文本一键清理</text>
+        <text class="page-subtitle">专业排版与格式净化，赋予文字第二生命。</text>
+      </view>
+
+      <!-- 编辑器 -->
+      <view class="editor-card">
+        <view class="editor-topbar">
+          <text class="editor-topbar-label">编辑区域 / EDITOR</text>
+          <view class="editor-topbar-actions">
+            <view class="topbar-btn" bindtap="onPaste">
+              <text class="topbar-btn-icon">📋</text>
+            </view>
+            <view class="topbar-btn" bindtap="onClear">
+              <text class="topbar-btn-icon">✕</text>
+            </view>
+          </view>
+        </view>
+        <textarea
+          class="editor-textarea"
+          value="{{sourceText}}"
+          placeholder="在此粘贴或输入需要处理的原始文本..."
+          placeholder-class="editor-placeholder"
+          bindinput="onInput"
+          auto-height
+          maxlength="-1"
+        />
+        <view class="editor-footer" wx:if="{{sourceText}}">
+          <text class="editor-stat">{{charCount}} 字符 · {{lineCount}} 行</text>
+        </view>
+      </view>
+
+      <!-- 排版选项 -->
+      <view class="options-section">
+        <text class="options-title">排版选项</text>
+        <text class="options-desc">在支持您的同时自动化运行所有清理操作</text>
+
+        <view class="options-list">
+          <view class="option-item" bindtap="onToggleTrimIndent">
+            <view class="option-left">
+              <view class="option-icon-wrap">
+                <text class="option-icon">≡</text>
+              </view>
+              <view class="option-info">
+                <text class="option-label">去除行首缩进</text>
+                <text class="option-hint">删除每行开头的空格与制表符</text>
+              </view>
+            </view>
+            <view class="checkbox {{trimIndent ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{trimIndent}}">✓</text>
+            </view>
+          </view>
+
+          <view class="option-item" bindtap="onToggleRemoveEmptyLines">
+            <view class="option-left">
+              <view class="option-icon-wrap">
+                <text class="option-icon">≡</text>
+              </view>
+              <view class="option-info">
+                <text class="option-label">删除空行</text>
+                <text class="option-hint">移除文本中全为空白的行</text>
+              </view>
+            </view>
+            <view class="checkbox {{removeEmptyLines ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{removeEmptyLines}}">✓</text>
+            </view>
+          </view>
+
+          <view class="option-item" bindtap="onToggleRemoveSpaces">
+            <view class="option-left">
+              <view class="option-icon-wrap option-icon-wrap--gray">
+                <text class="option-icon option-icon--gray">↔</text>
+              </view>
+              <view class="option-info">
+                <text class="option-label">合并多余空格</text>
+                <text class="option-hint">将行内连续空格压缩为单个半角空格</text>
+              </view>
+            </view>
+            <view class="checkbox {{removeSpaces ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{removeSpaces}}">✓</text>
+            </view>
+          </view>
+
+          <view class="option-item" bindtap="onToggleAddCjkSpaces">
+            <view class="option-left">
+              <view class="option-icon-wrap">
+                <text class="option-icon">文</text>
+              </view>
+              <view class="option-info">
+                <text class="option-label">中英文加空格</text>
+                <text class="option-hint">在中文与英文/数字之间自动插入空格</text>
+              </view>
+            </view>
+            <view class="checkbox {{addCjkSpaces ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{addCjkSpaces}}">✓</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 隐私说明 -->
+      <view class="privacy-card">
+        <text class="privacy-icon">🔒</text>
+        <text class="privacy-text">本地化处理程序，您的文本不会上传至服务器，数据安全得到充分保障。</text>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <view class="run-main-btn {{!sourceText ? 'run-main-btn--disabled' : ''}}" bindtap="onRun">
+      <text class="run-main-btn-icon">✦</text>
+      <text class="run-main-btn-text">一键排版</text>
+    </view>
+  </view>
+</view>

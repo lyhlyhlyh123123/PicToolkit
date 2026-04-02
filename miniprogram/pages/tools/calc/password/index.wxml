@@ -1,0 +1,125 @@
+<!--pages/tools/calc/password/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">计算工具</text>
+    <view class="navbar-badge">
+      <text class="navbar-badge-icon">⊙</text>
+      <text class="navbar-badge-text">SECURE ENGINE</text>
+    </view>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 结果卡片 -->
+      <view class="card result-card">
+        <view class="result-meta">
+          <text class="result-meta-label">GENERATED PASSWORD</text>
+          <view class="offline-badge">
+            <view class="offline-dot"></view>
+            <text class="offline-text">OFFLINE</text>
+          </view>
+        </view>
+        <text class="password-text" user-select="true">{{password}}</text>
+        <view class="result-actions">
+          <view class="copy-btn" bindtap="onCopy">
+            <text class="copy-btn-icon">⎘</text>
+            <text class="copy-btn-text">一键复制</text>
+          </view>
+          <view class="refresh-btn" bindtap="onRefresh">
+            <text class="refresh-icon">↻</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 配置选项 -->
+      <view class="card config-card">
+        <text class="section-title">配置选项</text>
+
+        <view class="char-grid">
+          <view class="char-item {{upper ? 'char-item--on' : ''}}" bindtap="onToggleUpper">
+            <view class="char-item-left">
+              <text class="char-code">Aa</text>
+              <text class="char-label">大写字母</text>
+            </view>
+            <view class="checkbox {{upper ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{upper}}">✓</text>
+            </view>
+          </view>
+
+          <view class="char-item {{lower ? 'char-item--on' : ''}}" bindtap="onToggleLower">
+            <view class="char-item-left">
+              <text class="char-code">a+</text>
+              <text class="char-label">小写字母</text>
+            </view>
+            <view class="checkbox {{lower ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{lower}}">✓</text>
+            </view>
+          </view>
+
+          <view class="char-item {{digits ? 'char-item--on' : ''}}" bindtap="onToggleDigits">
+            <view class="char-item-left">
+              <text class="char-code">123</text>
+              <text class="char-label">数字</text>
+            </view>
+            <view class="checkbox {{digits ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{digits}}">✓</text>
+            </view>
+          </view>
+
+          <view class="char-item {{special ? 'char-item--on' : ''}}" bindtap="onToggleSpecial">
+            <view class="char-item-left">
+              <text class="char-code">@</text>
+              <text class="char-label">特殊符号</text>
+            </view>
+            <view class="checkbox {{special ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{special}}">✓</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="length-section">
+          <view class="length-header">
+            <view class="length-label-wrap">
+              <text class="length-tag">LENGTH</text>
+              <text class="length-desc">设置密码长度</text>
+            </view>
+            <text class="length-value">{{length}}</text>
+          </view>
+          <slider
+            class="length-slider"
+            min="4"
+            max="64"
+            value="{{length}}"
+            step="1"
+            activeColor="#4A6CF7"
+            backgroundColor="#E8E9F0"
+            block-color="#4A6CF7"
+            block-size="22"
+            bindchange="onLengthChange"
+          />
+          <view class="length-range">
+            <text class="range-text">MIN 4</text>
+            <text class="range-text">MAX 64</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 隐私承诺 -->
+      <view class="card privacy-card">
+        <view class="privacy-icon-wrap">
+          <text class="privacy-icon">⊙</text>
+        </view>
+        <view class="privacy-content">
+          <text class="privacy-title">隐私安全承诺</text>
+          <text class="privacy-text">此生成器 <text class="privacy-highlight">100% 本地生成</text>，密码在您的设备中即时销毁，不上传服务器，不触网。</text>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,142 @@
+<!--pages/tools/text/counter/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">文本字数统计</text>
+    <view class="navbar-actions">
+      <view class="nav-icon-btn" bindtap="onShare">
+        <text class="nav-icon">⇪</text>
+      </view>
+      <view class="nav-icon-btn" bindtap="onCopyAll">
+        <text class="nav-icon">⊞</text>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 输入区 -->
+      <view class="input-card">
+        <view class="input-card-header">
+          <view class="input-header-left">
+            <text class="input-header-icon">⇄</text>
+            <text class="input-header-label">输入待统计内容</text>
+          </view>
+          <view class="input-clear-btn" bindtap="onClear">
+            <text class="input-clear-icon">⊟</text>
+            <text class="input-clear-text">清空内容</text>
+          </view>
+        </view>
+        <textarea
+          class="input-textarea"
+          value="{{sourceText}}"
+          placeholder="在此粘贴或输入您的文本内容进行实时统计..."
+          placeholder-class="input-placeholder"
+          bindinput="onInput"
+          auto-height
+          maxlength="-1"
+        />
+        <view class="input-card-footer">
+          <view class="paste-btn" bindtap="onPaste">
+            <text class="paste-icon">📋</text>
+            <text class="paste-text">粘贴</text>
+          </view>
+          <view class="copy-all-btn" bindtap="onCopyAll">
+            <text class="copy-all-icon">⊟</text>
+            <text class="copy-all-text">复制全文</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 统计概览 -->
+      <text class="section-title">统计概览</text>
+      <view class="overview-card">
+        <view class="overview-icon-wrap">
+          <text class="overview-icon">⊞</text>
+        </view>
+        <text class="overview-label">总字符数（含空格）</text>
+        <text class="overview-number">{{totalFormatted}}</text>
+        <view class="overview-badge">
+          <text class="overview-badge-dot">◉</text>
+          <text class="overview-badge-text">实时计算已开启</text>
+        </view>
+      </view>
+
+      <!-- 四格统计 -->
+      <view class="stat-grid">
+        <view class="stat-card">
+          <text class="stat-label">中文字数</text>
+          <view class="stat-value-row">
+            <text class="stat-value">{{chinese}}</text>
+            <text class="stat-unit">字</text>
+          </view>
+        </view>
+        <view class="stat-card">
+          <text class="stat-label">英文字词</text>
+          <view class="stat-value-row">
+            <text class="stat-value">{{english}}</text>
+            <text class="stat-unit">词</text>
+          </view>
+        </view>
+        <view class="stat-card">
+          <text class="stat-label">标点符号</text>
+          <view class="stat-value-row">
+            <text class="stat-value">{{punctuation}}</text>
+            <text class="stat-unit">个</text>
+          </view>
+        </view>
+        <view class="stat-card">
+          <text class="stat-label">空格数量</text>
+          <view class="stat-value-row">
+            <text class="stat-value">{{spaces}}</text>
+            <text class="stat-unit">个</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 段落 / 阅读 / 演讲 -->
+      <view class="detail-card">
+        <view class="detail-icon-wrap detail-icon-wrap--para">
+          <text class="detail-icon">≡</text>
+        </view>
+        <view class="detail-info">
+          <text class="detail-label">段落数量</text>
+          <text class="detail-value">{{paragraphs}} 段</text>
+        </view>
+      </view>
+
+      <view class="detail-card">
+        <view class="detail-icon-wrap detail-icon-wrap--read">
+          <text class="detail-icon">⏱</text>
+        </view>
+        <view class="detail-info">
+          <text class="detail-label">预估阅读时间</text>
+          <text class="detail-value">约 {{readMin}} 分钟</text>
+        </view>
+      </view>
+
+      <view class="detail-card">
+        <view class="detail-icon-wrap detail-icon-wrap--speak">
+          <text class="detail-icon">🎤</text>
+        </view>
+        <view class="detail-info">
+          <text class="detail-label">预估演讲时长</text>
+          <text class="detail-value">约 {{speakMin}} 分钟</text>
+        </view>
+      </view>
+
+      <!-- 隐私说明 -->
+      <view class="privacy-card">
+        <text class="privacy-icon">🔒</text>
+        <text class="privacy-text">本地化计算：内容绝不上传，您的隐私对我们至关重要</text>
+      </view>
+
+      <text class="footer-label">高精度文本统计工具，支持中英文混排、特殊符号识别。为内容创作者、学生和翻译官量身定制。</text>
+
+    </view>
+  </scroll-view>
+</view>

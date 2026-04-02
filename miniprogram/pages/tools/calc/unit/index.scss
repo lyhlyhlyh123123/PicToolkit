@@ -1,0 +1,263 @@
+/* pages/tools/calc/unit/index.scss */
+page { background: #F5F6FA; height: 100%; }
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #F5F6FA;
+}
+
+/* Navbar */
+.navbar {
+  flex-shrink: 0;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  padding: 0 24rpx;
+  padding-top: calc(env(safe-area-inset-top) + 88rpx);
+  padding-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+  gap: 16rpx;
+}
+
+.navbar-back {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  transition: background 0.15s ease;
+}
+
+.navbar-back:active {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.back-arrow {
+  font-size: 52rpx;
+  color: #1A1A2E;
+  line-height: 1;
+  margin-top: -4rpx;
+}
+
+.navbar-title {
+  flex: 1;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.navbar-brand {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #4A6CF7;
+}
+
+/* Scroll */
+.scroll-area { flex: 1; overflow: hidden; }
+
+.content {
+  padding: 20rpx 28rpx calc(env(safe-area-inset-bottom) + 60rpx);
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+/* Category tabs */
+.cat-tabs {
+  display: flex;
+  gap: 12rpx;
+  padding: 4rpx 0;
+}
+
+.cat-tab {
+  flex: 1;
+  height: 68rpx;
+  background: #FFFFFF;
+  border-radius: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+
+.cat-tab--active {
+  background: #4A6CF7;
+}
+
+.cat-tab-text {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #888899;
+}
+
+.cat-tab--active .cat-tab-text {
+  color: #FFFFFF;
+}
+
+/* Card */
+.card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 24rpx 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04);
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.card-label-sm {
+  font-size: 22rpx;
+  color: #888899;
+  font-weight: 500;
+}
+
+/* Unit picker */
+.unit-picker {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: #F0F1F8;
+  padding: 8rpx 16rpx;
+  border-radius: 14rpx;
+}
+
+.unit-picker-text {
+  font-size: 24rpx;
+  color: #4A6CF7;
+  font-weight: 500;
+  max-width: 240rpx;
+}
+
+.unit-picker-arrow {
+  font-size: 18rpx;
+  color: #4A6CF7;
+}
+
+/* Value input/output */
+.value-input {
+  font-size: 64rpx;
+  font-weight: 300;
+  color: #1A1A2E;
+  line-height: 1.2;
+  width: 100%;
+}
+
+.value-placeholder {
+  color: #CCCCDD;
+  font-size: 64rpx;
+  font-weight: 300;
+}
+
+.value-output {
+  font-size: 64rpx;
+  font-weight: 700;
+  color: #4A6CF7;
+  line-height: 1.2;
+  display: block;
+  word-break: break-all;
+}
+
+.value-output--empty {
+  color: #CCCCDD;
+  font-weight: 300;
+}
+
+/* Swap */
+.swap-row {
+  display: flex;
+  justify-content: center;
+  margin: -4rpx 0;
+}
+
+.swap-btn {
+  width: 72rpx;
+  height: 72rpx;
+  background: #4A6CF7;
+  border-radius: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(74,108,247,0.3);
+}
+
+.swap-icon {
+  font-size: 32rpx;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* Grid card */
+.grid-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.grid-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.grid-subtitle {
+  font-size: 22rpx;
+  color: #AAAABC;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
+
+.grid-item {
+  background: #F5F6FA;
+  border-radius: 18rpx;
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.grid-short {
+  font-size: 18rpx;
+  color: #AAAABC;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+  align-self: flex-end;
+}
+
+.grid-label {
+  font-size: 22rpx;
+  color: #888899;
+}
+
+.grid-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1A1A2E;
+  line-height: 1.2;
+  word-break: break-all;
+}
+
+/* Footer */
+.footer-mark {
+  display: flex;
+  justify-content: center;
+  padding: 8rpx 0;
+}
+
+.footer-text {
+  font-size: 18rpx;
+  color: #CCCCDD;
+  letter-spacing: 1rpx;
+}

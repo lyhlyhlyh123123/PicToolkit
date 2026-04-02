@@ -1,0 +1,127 @@
+<!--pages/tools/image/compress/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">功能详情</text>
+    <view class="run-btn {{!srcPath ? 'run-btn--disabled' : ''}}" bindtap="onCompress">
+      <text class="run-btn-text">运行</text>
+    </view>
+  </view>
+
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">智能图片压缩</text>
+    <text class="page-subtitle">基于深度学习的无损视觉压缩技术</text>
+  </view>
+
+  <!-- 上传区（固定，不滚动） -->
+  <view class="upload-panel" bindtap="onChooseImage">
+    <block wx:if="{{!srcPath}}">
+      <view class="upload-placeholder">
+        <view class="upload-icon-wrap">
+          <text class="upload-icon">☁</text>
+        </view>
+        <text class="upload-title">点击或拖拽图片到此处</text>
+        <text class="upload-hint">支持 JPG, PNG, WEBP，最大 20MB</text>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="image-preview-wrap">
+        <image class="image-preview" src="{{resultPath || srcPath}}" mode="aspectFit"></image>
+        <view class="reselect-mask" catchtap="onReChoose">
+          <text class="reselect-text">重新选择</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 文件大小信息 -->
+  <view class="size-bar">
+    <view class="size-item">
+      <text class="size-label">原始大小</text>
+      <text class="size-value">{{srcSize || '- MB'}}</text>
+    </view>
+    <view class="size-arrow">→</view>
+    <view class="size-item">
+      <text class="size-label">{{resultPath ? '压缩后' : '压缩预估'}}</text>
+      <text class="size-value size-value--result">{{resultSize || '- MB'}}</text>
+    </view>
+    <view class="size-ratio" wx:if="{{ratio}}">
+      <text class="ratio-text">节省 {{ratio}}%</text>
+    </view>
+  </view>
+
+  <!-- 参数设置（可滚动） -->
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 参数调节卡片 -->
+      <view class="card">
+        <view class="card-header">
+          <text class="card-header-icon">≡</text>
+          <text class="card-header-title">参数调节</text>
+        </view>
+
+        <!-- 压缩质量 -->
+        <view class="param-row">
+          <text class="param-label">压缩质量</text>
+          <view class="param-badge">
+            <text class="param-badge-text">{{quality}}%</text>
+          </view>
+        </view>
+        <slider
+          min="10" max="100"
+          value="{{quality}}"
+          activeColor="#4A6CF7"
+          backgroundColor="#E8EAFF"
+          block-color="#4A6CF7"
+          block-size="20"
+          bindchanging="onQualityChanging"
+          bindchange="onQualityChange"
+        />
+        <view class="slider-tips">
+          <text class="slider-tip">最高压缩</text>
+          <text class="slider-tip">极佳质量</text>
+        </view>
+
+        <!-- 转为 WEBP -->
+        <view class="toggle-row">
+          <view class="toggle-info">
+            <text class="toggle-label">转为 WEBP</text>
+            <text class="toggle-desc">更小体积，约节省 25-30%</text>
+          </view>
+          <switch
+            checked="{{toWebp}}"
+            color="#4A6CF7"
+            bindchange="onToWebpChange"
+          />
+        </view>
+      </view>
+
+      <!-- 本地处理说明 -->
+      <view class="local-tip-card">
+        <view class="local-tip-header">
+          <text class="local-tip-icon">🛡</text>
+          <text class="local-tip-title">本地处理</text>
+        </view>
+        <text class="local-tip-desc">你的图片不会上传到服务器，所有压缩操作在浏览器本地完成，确保隐私安全。</text>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 隐藏 canvas，仅用于压缩计算 -->
+  <canvas type="2d" id="compressCanvas" class="hidden-canvas"></canvas>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <view class="compress-btn {{!srcPath || compressing ? 'compress-btn--disabled' : ''}}" bindtap="onCompress">
+      <text class="compress-btn-icon">⚡</text>
+      <text class="compress-btn-text">{{compressing ? '压缩中...' : '开始压缩'}}</text>
+    </view>
+    <text class="bottom-label">● LOCAL-FIRST PRIVACY POWERED</text>
+  </view>
+</view>

@@ -1,0 +1,121 @@
+<!--pages/tools/text/dedup/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">功能详情</text>
+    <view class="run-btn {{!sourceText ? 'run-btn--disabled' : ''}}" bindtap="onRun">
+      <text class="run-btn-text">运行</text>
+    </view>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 页面标题 -->
+      <view class="page-header">
+        <text class="page-title">文本去重</text>
+        <text class="page-subtitle">逐行扫描，智能识别重复内容并一键清除。</text>
+      </view>
+
+      <!-- 编辑器 -->
+      <view class="editor-card">
+        <view class="editor-topbar">
+          <text class="editor-topbar-label">编辑区域 / EDITOR</text>
+          <view class="editor-topbar-actions">
+            <view class="topbar-btn" bindtap="onPaste">
+              <text class="topbar-btn-icon">📋</text>
+            </view>
+            <view class="topbar-btn" bindtap="onClear">
+              <text class="topbar-btn-icon">✕</text>
+            </view>
+          </view>
+        </view>
+        <textarea
+          class="editor-textarea"
+          value="{{sourceText}}"
+          placeholder="在此粘贴或输入需要去重的文本，每行作为一个独立单元..."
+          placeholder-class="editor-placeholder"
+          bindinput="onInput"
+          auto-height
+          maxlength="-1"
+        />
+        <view class="editor-footer" wx:if="{{sourceText}}">
+          <text class="editor-stat">{{charCount}} 字符 · {{lineCount}} 行</text>
+          <text class="editor-stat-removed" wx:if="{{hasResult && removedCount > 0}}">已删除 {{removedCount}} 行重复</text>
+          <text class="editor-stat-none" wx:if="{{hasResult && removedCount === 0}}">无重复行</text>
+        </view>
+      </view>
+
+      <!-- 去重选项 -->
+      <view class="options-section">
+        <text class="options-title">去重选项</text>
+        <text class="options-desc">自定义去重规则以匹配您的实际需求</text>
+
+        <view class="options-list">
+          <view class="option-item" bindtap="onToggleCaseSensitive">
+            <view class="option-left">
+              <view class="option-icon-wrap">
+                <text class="option-icon">Aa</text>
+              </view>
+              <view class="option-info">
+                <text class="option-label">区分大小写</text>
+                <text class="option-hint">关闭时 "ABC" 与 "abc" 视为重复</text>
+              </view>
+            </view>
+            <view class="checkbox {{caseSensitive ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{caseSensitive}}">✓</text>
+            </view>
+          </view>
+
+          <view class="option-item" bindtap="onToggleTrimWhitespace">
+            <view class="option-left">
+              <view class="option-icon-wrap option-icon-wrap--orange">
+                <text class="option-icon option-icon--orange">⇥</text>
+              </view>
+              <view class="option-info">
+                <text class="option-label">忽略首尾空格</text>
+                <text class="option-hint">仅用于比较，不改变原始行内容</text>
+              </view>
+            </view>
+            <view class="checkbox {{trimWhitespace ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{trimWhitespace}}">✓</text>
+            </view>
+          </view>
+
+          <view class="option-item" bindtap="onToggleKeepEmpty">
+            <view class="option-left">
+              <view class="option-icon-wrap option-icon-wrap--gray">
+                <text class="option-icon option-icon--gray">—</text>
+              </view>
+              <view class="option-info">
+                <text class="option-label">保留空行</text>
+                <text class="option-hint">开启时空行不参与去重直接保留；关闭时多个空行只保留一个</text>
+              </view>
+            </view>
+            <view class="checkbox {{keepEmpty ? 'checkbox--checked' : ''}}">
+              <text class="checkbox-icon" wx:if="{{keepEmpty}}">✓</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 隐私说明 -->
+      <view class="privacy-card">
+        <text class="privacy-icon">🔒</text>
+        <text class="privacy-text">本地化处理程序，您的文本不会上传至服务器，数据安全得到充分保障。</text>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <view class="run-main-btn {{!sourceText ? 'run-main-btn--disabled' : ''}}" bindtap="onRun">
+      <text class="run-main-btn-icon">✦</text>
+      <text class="run-main-btn-text">一键去重</text>
+    </view>
+  </view>
+</view>

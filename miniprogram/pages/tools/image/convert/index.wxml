@@ -1,0 +1,120 @@
+<!--pages/tools/image/convert/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">功能详情</text>
+    <view class="run-btn {{!srcPath || converting ? 'run-btn--disabled' : ''}}" bindtap="onConvert">
+      <text class="run-btn-text">运行</text>
+    </view>
+  </view>
+
+  <!-- 可滚动主体 -->
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 页面标题 -->
+      <view class="page-header">
+        <text class="page-title">图片格式转换</text>
+        <text class="page-subtitle">快速、隐私地处理您的图像资源。支持主流 Web 格式。</text>
+      </view>
+
+      <!-- 上传区 -->
+      <view class="upload-panel" bindtap="onChooseImage">
+        <block wx:if="{{!srcPath}}">
+          <view class="upload-placeholder">
+            <view class="upload-icon-wrap">
+              <text class="upload-icon">☁</text>
+            </view>
+            <text class="upload-title">拖放文件或点击上传</text>
+            <text class="upload-hint">支持 PNG、JPG、BMP 或 HEIC 格式（最大 20MB）</text>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="image-preview-wrap">
+            <image class="image-preview" src="{{srcPath}}" mode="aspectFit"></image>
+            <view class="file-info-bar">
+              <text class="file-info-text">{{srcFormat}} · {{srcSize}}</text>
+              <view catchtap="onReChoose" class="reselect-btn">
+                <text class="reselect-text">重选</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <!-- 目标格式 -->
+      <view class="card">
+        <view class="card-header">
+          <text class="card-header-icon">✦</text>
+          <text class="card-header-title">目标格式</text>
+        </view>
+        <view class="format-grid">
+          <view
+            wx:for="{{formatOptions}}"
+            wx:key="id"
+            class="format-card {{targetFormat === item.id ? 'format-card--active' : ''}}"
+            data-id="{{item.id}}"
+            bindtap="onFormatTap"
+          >
+            <text class="format-name">{{item.name}}</text>
+            <view class="format-check" wx:if="{{targetFormat === item.id}}">
+              <text class="format-check-icon">✓</text>
+            </view>
+          </view>
+        </view>
+        <text class="format-desc">{{targetFormatDesc}}</text>
+      </view>
+
+      <!-- 输出质量 -->
+      <view class="card">
+        <view class="card-header">
+          <text class="card-header-icon">≡</text>
+          <text class="card-header-title">输出质量</text>
+        </view>
+        <text class="quality-value">{{quality}}%</text>
+        <slider
+          min="10" max="100"
+          value="{{quality}}"
+          activeColor="#4A6CF7"
+          backgroundColor="#E8EAFF"
+          block-color="#4A6CF7"
+          block-size="20"
+          bindchanging="onQualityChanging"
+          bindchange="onQualityChange"
+        />
+        <text class="quality-label">BALANCED QUALITY</text>
+        <text class="quality-note" wx:if="{{targetFormat === 'png'}}">PNG 为无损格式，质量设置仅影响文件大小</text>
+      </view>
+
+      <!-- 结果信息 -->
+      <view class="result-bar" wx:if="{{resultSize}}">
+        <text class="result-icon">✓</text>
+        <text class="result-text">转换完成，输出大小：{{resultSize}}</text>
+      </view>
+
+      <!-- 隐私说明 -->
+      <view class="local-tip-card">
+        <view class="local-tip-header">
+          <text class="local-tip-icon">🛡</text>
+          <text class="local-tip-title">本地处理</text>
+        </view>
+        <text class="local-tip-desc">您的所有文件都在浏览器本地处理，不会上传到任何服务器。</text>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <view class="convert-btn {{!srcPath || converting ? 'convert-btn--disabled' : ''}}" bindtap="onConvert">
+      <text class="convert-btn-icon">↺</text>
+      <text class="convert-btn-text">{{converting ? '转换中...' : '立即转换'}}</text>
+    </view>
+  </view>
+
+  <!-- 隐藏 canvas -->
+  <canvas type="2d" id="convertCanvas" class="hidden-canvas"></canvas>
+</view>

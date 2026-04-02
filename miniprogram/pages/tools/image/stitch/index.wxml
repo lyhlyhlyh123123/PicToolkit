@@ -1,0 +1,156 @@
+<!--pages/tools/image/stitch/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">功能详情</text>
+    <view class="run-btn {{!images.length || generating ? 'run-btn--disabled' : ''}}" bindtap="onGenerate">
+      <text class="run-btn-text">运行</text>
+    </view>
+  </view>
+
+  <!-- 可滚动主体 -->
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 上传图片 -->
+      <view class="section-header">
+        <text class="section-title">上传图片</text>
+        <text class="section-count">{{images.length}}/9 已上传</text>
+      </view>
+      <view class="image-grid">
+        <view
+          wx:for="{{images}}"
+          wx:key="path"
+          class="image-cell"
+        >
+          <image class="grid-img" src="{{item.path}}" mode="aspectFill"></image>
+          <!-- 排序箭头 -->
+          <view class="order-bar">
+            <view class="order-btn" catchtap="onMoveLeft" data-index="{{index}}">
+              <text class="order-icon">‹</text>
+            </view>
+            <view class="order-btn" catchtap="onMoveRight" data-index="{{index}}">
+              <text class="order-icon">›</text>
+            </view>
+          </view>
+          <!-- 删除 -->
+          <view class="cell-del" catchtap="onRemoveImage" data-index="{{index}}">
+            <text class="cell-del-icon">×</text>
+          </view>
+        </view>
+        <!-- 添加按钮 -->
+        <view class="image-cell image-cell--add" bindtap="onAddImage" wx:if="{{images.length < 9}}">
+          <text class="add-icon">+</text>
+          <text class="add-text">添加图片</text>
+        </view>
+      </view>
+
+      <!-- 拼接方向 -->
+      <view class="section-title" style="margin-top:8rpx">拼接方向</view>
+      <view class="dir-row">
+        <view
+          class="dir-btn {{direction === 'v' ? 'dir-btn--active' : ''}}"
+          bindtap="onDirectionChange"
+          data-dir="v"
+        >
+          <text class="dir-icon">⇅</text>
+          <text class="dir-text">纵向拼接</text>
+        </view>
+        <view
+          class="dir-btn {{direction === 'h' ? 'dir-btn--active' : ''}}"
+          bindtap="onDirectionChange"
+          data-dir="h"
+        >
+          <text class="dir-icon">⇆</text>
+          <text class="dir-text">横向拼接</text>
+        </view>
+      </view>
+
+      <!-- 间距调节 -->
+      <view class="card">
+        <view class="card-header">
+          <text class="card-header-title">间距调节</text>
+          <text class="card-value">{{gap}}px</text>
+        </view>
+        <view class="slider-label-row">
+          <text class="slider-label">内间距</text>
+          <text class="slider-val">{{gap}}px</text>
+        </view>
+        <slider
+          min="0" max="60"
+          value="{{gap}}"
+          activeColor="#4A6CF7"
+          backgroundColor="#E8EAFF"
+          block-color="#4A6CF7"
+          block-size="20"
+          bindchanging="onGapChanging"
+          bindchange="onGapChange"
+        />
+        <view class="slider-label-row" style="margin-top:8rpx">
+          <text class="slider-label">圆角大小</text>
+          <text class="slider-val">{{radius}}px</text>
+        </view>
+        <slider
+          min="0" max="60"
+          value="{{radius}}"
+          activeColor="#4A6CF7"
+          backgroundColor="#E8EAFF"
+          block-color="#4A6CF7"
+          block-size="20"
+          bindchanging="onRadiusChanging"
+          bindchange="onRadiusChange"
+        />
+      </view>
+
+      <!-- 实时预览 -->
+      <view class="preview-section">
+        <view class="preview-header">
+          <view class="preview-dot"></view>
+          <text class="preview-title">实时预览</text>
+          <view class="preview-actions">
+            <view class="preview-action-btn" bindtap="onZoomPreview">
+              <text class="preview-action-icon">🔍</text>
+            </view>
+            <view class="preview-action-btn" bindtap="onRefreshPreview">
+              <text class="preview-action-icon">↺</text>
+            </view>
+          </view>
+        </view>
+        <view class="preview-box">
+          <block wx:if="{{previewPath}}">
+            <image class="preview-img" src="{{previewPath}}" mode="widthFix"></image>
+          </block>
+          <block wx:elif="{{images.length > 0}}">
+            <view class="preview-loading">
+              <text class="preview-loading-text">生成预览中...</text>
+            </view>
+          </block>
+          <block wx:else>
+            <view class="preview-empty">
+              <text class="preview-empty-text">添加图片后自动预览</text>
+            </view>
+          </block>
+        </view>
+        <text class="preview-hint">● 点击 ‹ › 可调整拼接顺序</text>
+      </view>
+
+      <view class="privacy-label">PRIVACY GUARANTEED · ALL PROCESSING HAPPENS ON-DEVICE</view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <view class="gen-btn {{!images.length || generating ? 'gen-btn--disabled' : ''}}" bindtap="onGenerate">
+      <text class="gen-btn-icon">✦</text>
+      <text class="gen-btn-text">{{generating ? '生成中...' : '生成拼接图'}}</text>
+    </view>
+  </view>
+
+  <!-- 隐藏预览 canvas -->
+  <canvas type="2d" id="stitchCanvas" class="hidden-canvas"></canvas>
+  <!-- 隐藏导出 canvas -->
+  <canvas type="2d" id="stitchCanvasExport" class="hidden-canvas"></canvas>
+</view>

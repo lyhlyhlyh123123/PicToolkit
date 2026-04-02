@@ -1,0 +1,94 @@
+<!--pages/tools/calc/unit/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">计算工具</text>
+    <text class="navbar-brand">多维换算</text>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 类别切换 -->
+      <view class="cat-tabs">
+        <view
+          wx:for="{{categories}}"
+          wx:key="id"
+          class="cat-tab {{catIndex === index ? 'cat-tab--active' : ''}}"
+          data-index="{{index}}"
+          bindtap="onCatTap"
+        >
+          <text class="cat-tab-text">{{item.label}}</text>
+        </view>
+      </view>
+
+      <!-- 源单位输入 -->
+      <view class="card from-card">
+        <view class="card-top">
+          <text class="card-label-sm">源单位</text>
+          <picker range="{{units}}" value="{{fromIndex}}" bindchange="onFromPickerChange">
+            <view class="unit-picker">
+              <text class="unit-picker-text">{{fromLabel}}</text>
+              <text class="unit-picker-arrow">∨</text>
+            </view>
+          </picker>
+        </view>
+        <input
+          class="value-input"
+          type="digit"
+          value="{{inputValue}}"
+          placeholder="输入数值"
+          placeholder-class="value-placeholder"
+          bindinput="onInput"
+        />
+      </view>
+
+      <!-- 换向按钮 -->
+      <view class="swap-row">
+        <view class="swap-btn" bindtap="onSwap">
+          <text class="swap-icon">⇅</text>
+        </view>
+      </view>
+
+      <!-- 目标单位输出 -->
+      <view class="card to-card">
+        <view class="card-top">
+          <text class="card-label-sm">目标单位</text>
+          <picker range="{{units}}" value="{{toIndex}}" bindchange="onToPickerChange">
+            <view class="unit-picker">
+              <text class="unit-picker-text">{{toLabel}}</text>
+              <text class="unit-picker-arrow">∨</text>
+            </view>
+          </picker>
+        </view>
+        <text class="value-output {{!outputValue ? 'value-output--empty' : ''}}">
+          {{outputValue || '—'}}
+        </text>
+      </view>
+
+      <!-- 常用单位实时输出 -->
+      <view class="card grid-card" wx:if="{{gridResults.length > 0}}">
+        <view class="grid-header">
+          <text class="grid-title">常用单位实时输出</text>
+          <text class="grid-subtitle">{{inputValue || '1'}} {{fromLabel.split(' ')[0]}} = ...</text>
+        </view>
+        <view class="grid">
+          <view class="grid-item" wx:for="{{gridResults}}" wx:key="short">
+            <text class="grid-short">{{item.short}}</text>
+            <text class="grid-label">{{item.label}}</text>
+            <text class="grid-value">{{item.value}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部水印 -->
+      <view class="footer-mark">
+        <text class="footer-text">LOCAL-FIRST CALCULATION • PRIVACY PROTECTED</text>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

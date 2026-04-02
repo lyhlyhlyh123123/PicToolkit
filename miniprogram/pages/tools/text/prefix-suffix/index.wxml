@@ -1,0 +1,121 @@
+<!--pages/tools/text/prefix-suffix/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">功能详情</text>
+    <view class="run-btn {{!sourceText ? 'run-btn--disabled' : ''}}" bindtap="onRun">
+      <text class="run-btn-text">运行</text>
+    </view>
+  </view>
+
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 页面标题 -->
+      <view class="page-header">
+        <view class="page-tag">BATCH EDITOR</view>
+        <text class="page-title">添加前缀后缀</text>
+        <text class="page-subtitle">为您的文本列表快速批量插入特定字符，支持多行处理，确保每一个修改都符合您的精准需求。</text>
+      </view>
+
+      <!-- 文本编辑器 -->
+      <view class="editor-card">
+        <view class="editor-topbar">
+          <view class="editor-topbar-left">
+            <text class="editor-topbar-icon">≡</text>
+            <text class="editor-topbar-label">待处理内容</text>
+          </view>
+          <view class="editor-topbar-right">
+            <view class="parallel-badge">
+              <text class="parallel-badge-text">支持多行</text>
+            </view>
+            <view class="topbar-btn" bindtap="onPaste">
+              <text class="topbar-btn-icon">📋</text>
+            </view>
+            <view class="topbar-btn" bindtap="onClearText">
+              <text class="topbar-btn-icon">✕</text>
+            </view>
+          </view>
+        </view>
+        <textarea
+          class="editor-textarea"
+          value="{{sourceText}}"
+          placeholder="在此输入或粘贴列表文本，每行一条数据..."
+          placeholder-class="editor-placeholder"
+          bindinput="onInput"
+          auto-height
+          maxlength="-1"
+        />
+        <view class="editor-footer" wx:if="{{sourceText}}">
+          <text class="editor-stat">{{charCount}} 字符 · {{lineCount}} 行</text>
+        </view>
+      </view>
+
+      <!-- 参数设置 -->
+      <view class="params-card">
+        <view class="params-header">
+          <text class="params-header-icon">⚙</text>
+          <text class="params-title">参数设置</text>
+        </view>
+
+        <view class="param-field">
+          <text class="param-label">前缀 (PREFIX)</text>
+          <input
+            class="param-input"
+            value="{{prefix}}"
+            placeholder="例如：ITEM_"
+            placeholder-class="param-placeholder"
+            bindinput="onPrefixInput"
+            maxlength="50"
+          />
+        </view>
+
+        <view class="param-field">
+          <text class="param-label">后缀 (SUFFIX)</text>
+          <input
+            class="param-input"
+            value="{{suffix}}"
+            placeholder="例如：_V1"
+            placeholder-class="param-placeholder"
+            bindinput="onSuffixInput"
+            maxlength="50"
+          />
+        </view>
+
+        <view class="param-toggle" bindtap="onToggleSkipEmpty">
+          <view class="param-toggle-left">
+            <text class="param-toggle-label">跳过空行</text>
+            <text class="param-toggle-hint">空行不添加前缀/后缀，直接保留</text>
+          </view>
+          <view class="toggle-switch {{skipEmpty ? 'toggle-switch--on' : ''}}">
+            <view class="toggle-thumb"></view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 隐私说明 -->
+      <view class="privacy-card">
+        <text class="privacy-icon">⊙</text>
+        <view class="privacy-content">
+          <text class="privacy-title">PRIVACY SECURED</text>
+          <text class="privacy-text">所有操作均在本地运算资源中执行，数据不上传服务器。</text>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="run-main-btn {{!sourceText ? 'run-main-btn--disabled' : ''}}" bindtap="onRun">
+      <text class="run-main-btn-icon">✦</text>
+      <text class="run-main-btn-text">执行批量添加</text>
+    </view>
+    <view class="copy-btn {{!sourceText ? 'copy-btn--disabled' : ''}}" bindtap="onCopyResult">
+      <text class="copy-btn-icon">⎘</text>
+    </view>
+  </view>
+</view>

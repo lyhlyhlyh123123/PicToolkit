@@ -1,0 +1,171 @@
+<!--pages/tools/text/find/index.wxml-->
+<view class="page">
+  <!-- 导航栏 -->
+  <view class="navbar">
+    <view class="navbar-back" bindtap="onBack">
+      <text class="back-arrow">‹</text>
+    </view>
+    <text class="navbar-title">文本全查找/替换</text>
+    <view class="navbar-actions">
+      <view class="nav-icon-btn" bindtap="onShowHistory">
+        <text class="nav-icon">⏱</text>
+      </view>
+      <view class="nav-icon-btn" bindtap="onCopyResult">
+        <text class="nav-icon">⋯</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 可滚动主体 -->
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content">
+
+      <!-- 源文本编辑器 -->
+      <view class="editor-card">
+        <view class="editor-header">
+          <text class="editor-label">源文本编辑器</text>
+          <view class="editor-stats">
+            <text class="editor-stat">字符数：{{charCount}}</text>
+            <text class="editor-stat-sep">  </text>
+            <text class="editor-stat">行数：{{lineCount}}</text>
+          </view>
+        </view>
+        <textarea
+          class="editor-textarea"
+          value="{{sourceText}}"
+          placeholder="在这里输入或粘贴要处理的文字..."
+          placeholder-class="editor-placeholder"
+          bindinput="onSourceInput"
+          auto-height
+          maxlength="-1"
+        ></textarea>
+        <view class="editor-footer">
+          <view class="editor-action-btn" bindtap="onPaste">
+            <text class="editor-action-icon">📋</text>
+            <text class="editor-action-text">粘贴</text>
+          </view>
+          <view class="editor-action-btn" bindtap="onCopyResult">
+            <text class="editor-action-icon">📄</text>
+            <text class="editor-action-text">复制</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 实时预览 -->
+      <view class="preview-card">
+        <view class="preview-header">
+          <text class="preview-eye">👁</text>
+          <text class="preview-title">实时预览</text>
+          <text class="preview-count" wx:if="{{matchCount > 0}}">{{matchCount}} 处匹配</text>
+        </view>
+        <view class="preview-body">
+          <block wx:if="{{regexError}}">
+            <text class="preview-error">{{regexError}}</text>
+          </block>
+          <block wx:elif="{{previewSegments.length > 0 && keyword}}">
+            <view class="preview-text">
+              <text
+                wx:for="{{previewSegments}}"
+                wx:key="index"
+                class="{{item.highlight ? 'seg-highlight' : 'seg-normal'}}"
+              >{{item.text}}</text>
+            </view>
+          </block>
+          <block wx:else>
+            <view class="preview-hint-wrap">
+              <text class="preview-hint">正在等待输入查找内容... 匹配项将在此处以 </text>
+              <text class="preview-hint-hl">高亮</text>
+              <text class="preview-hint"> 显示。</text>
+            </view>
+          </block>
+        </view>
+      </view>
+
+      <!-- 操作面板 -->
+      <view class="panel-card">
+        <view class="panel-header">
+          <text class="panel-title">操作面板</text>
+          <view class="panel-copy-btn" bindtap="onCopyResult">
+            <text class="panel-copy-icon">⧉</text>
+          </view>
+        </view>
+
+        <!-- 查找输入 -->
+        <text class="input-label">查找内容</text>
+        <view class="input-wrap">
+          <text class="input-prefix-icon">🔍</text>
+          <input
+            class="text-input"
+            value="{{keyword}}"
+            placeholder="输入要查找的字符"
+            placeholder-class="input-placeholder"
+            bindinput="onKeywordInput"
+          />
+        </view>
+
+        <!-- 替换输入 -->
+        <text class="input-label" style="margin-top:16rpx">替换为</text>
+        <view class="input-wrap">
+          <text class="input-prefix-icon">⇄</text>
+          <input
+            class="text-input"
+            value="{{replacement}}"
+            placeholder="输入新字符"
+            placeholder-class="input-placeholder"
+            bindinput="onReplacementInput"
+          />
+        </view>
+
+        <!-- 选项开关 -->
+        <view class="options-row">
+          <view
+            class="option-chip {{caseSensitive ? 'option-chip--active' : ''}}"
+            bindtap="onToggleCaseSensitive"
+          >
+            <view class="chip-check {{caseSensitive ? 'chip-check--active' : ''}}">
+              <text class="chip-check-icon" wx:if="{{caseSensitive}}">✓</text>
+            </view>
+            <text class="chip-text">区分大小写</text>
+          </view>
+          <view
+            class="option-chip {{wholeWord ? 'option-chip--active' : ''}}"
+            bindtap="onToggleWholeWord"
+          >
+            <view class="chip-check {{wholeWord ? 'chip-check--active' : ''}}">
+              <text class="chip-check-icon" wx:if="{{wholeWord}}">✓</text>
+            </view>
+            <text class="chip-text">全字匹配</text>
+          </view>
+          <view
+            class="option-chip {{useRegex ? 'option-chip--active' : ''}}"
+            bindtap="onToggleRegex"
+          >
+            <view class="chip-check {{useRegex ? 'chip-check--active' : ''}}">
+              <text class="chip-check-icon" wx:if="{{useRegex}}">✓</text>
+            </view>
+            <text class="chip-text">正则表达式</text>
+          </view>
+        </view>
+
+        <!-- 全部替换按钮 -->
+        <view
+          class="replace-btn {{!sourceText || !keyword ? 'replace-btn--disabled' : ''}}"
+          bindtap="onReplaceAll"
+        >
+          <text class="replace-btn-icon">✦</text>
+          <text class="replace-btn-text">全部替换</text>
+        </view>
+      </view>
+
+      <!-- 使用小技巧 -->
+      <view class="tip-card">
+        <view class="tip-header">
+          <text class="tip-icon">💡</text>
+          <text class="tip-title">使用小技巧</text>
+        </view>
+        <text class="tip-desc">开启"区分大小写"可以更精准地处理专有名词。替换完成后，点击编辑器上方的"复制"按钮可直接保存结果。</text>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>
